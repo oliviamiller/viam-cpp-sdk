@@ -16,7 +16,7 @@ AudioInServer::AudioInServer(std::shared_ptr<ResourceManager> manager)
     ::grpc::ServerContext* context,
     const ::viam::component::audioin::v1::GetAudioRequest* request,
     ::grpc::ServerWriter<::viam::component::audioin::v1::GetAudioResponse>* writer) noexcept {
-    make_service_helper<AudioIn>(
+    auto status = make_service_helper<AudioIn>(
         "AudioInServer::GetAudio", this, request)([&](auto& helper, auto& audio_in) {
         const std::string request_id = boost::uuids::to_string(boost::uuids::random_generator()());
         auto writeChunk = [writer, context, request_id](AudioIn::audio_chunk&& chunk) {
@@ -55,7 +55,7 @@ AudioInServer::AudioInServer(std::shared_ptr<ResourceManager> manager)
                             helper.getExtra());
     });
 
-    return ::grpc::Status();
+    return status
 }
 
 ::grpc::Status AudioInServer::DoCommand(::grpc::ServerContext*,
