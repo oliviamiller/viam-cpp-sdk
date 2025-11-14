@@ -55,7 +55,7 @@ AudioInServer::AudioInServer(std::shared_ptr<ResourceManager> manager)
                             helper.getExtra());
     });
 
-    return status
+    return status;
 }
 
 ::grpc::Status AudioInServer::DoCommand(::grpc::ServerContext*,
